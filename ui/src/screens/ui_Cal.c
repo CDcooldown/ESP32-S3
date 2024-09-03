@@ -7,6 +7,8 @@
 
 void ui_Cal_screen_init(void)
 {
+    lv_obj_add_event_cb(ui_Cal, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
+
 ui_Cal = lv_obj_create(NULL);
 lv_obj_clear_flag( ui_Cal, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 

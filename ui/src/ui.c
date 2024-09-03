@@ -11,6 +11,13 @@
 ///////////////////// VARIABLES ////////////////////
 void Start_Animation(lv_obj_t *TargetObject, int delay);
 
+// SCREEN: ui_Standby
+void ui_Standby_screen_init(void);
+lv_obj_t  *ui_Standby;
+lv_obj_t  *ui_Face;
+void ui_event_ResetInactivity(lv_event_t *e);
+void init_timer();
+void reset_timer();
 // SCREEN: ui_Main
 void ui_Main_screen_init(void);
 lv_obj_t *ui_Main;
@@ -211,15 +218,49 @@ lv_obj_t *ui____initial_actions0;
 lv_timer_t* auto_click_timer = NULL;  // 定时器的全局指针
 void auto_click_timer_cb(lv_timer_t * timer)
 {
-    // 检查目标控件是否处于已选中状态
     if (!lv_obj_has_state(ui_SwitchSpeak2, LV_STATE_CHECKED))
-    {
-        // 如果未选中状态，模拟点击将其状态改为已选中
         lv_obj_add_state(ui_SwitchSpeak2, LV_STATE_CHECKED);
-    }
-    // 模拟触发点击事件
+    
     lv_event_send(ui_SwitchSpeak2, LV_EVENT_VALUE_CHANGED, NULL);
 }
+
+lv_timer_t *inactivity_timer; // 全局计时器变量
+uint32_t inactivity_time = 8000; // 30秒（单位为毫秒）
+lv_obj_t *previous_screen; // 用于保存之前的屏幕
+
+// 计时器回调函数
+void inactivity_timer_callback(lv_timer_t * timer) 
+{
+    // if (lv_tick_elaps(timer->last_run) >= inactivity_time) {
+    if (1) {
+        previous_screen = lv_scr_act(); // 保存当前活跃的屏幕
+        _ui_screen_change(&ui_Standby, LV_SCR_LOAD_ANIM_FADE_ON, 200, 0, &ui_Standby_screen_init);   
+        lv_timer_pause(inactivity_timer); 
+    }
+}
+
+
+void init_timer() {
+    inactivity_timer = lv_timer_create(inactivity_timer_callback, 10000, NULL); // 每秒检查一次
+    lv_timer_pause(inactivity_timer); // 暂停计时器，等用户操作时启动
+}
+
+void reset_timer() {
+    lv_timer_reset(inactivity_timer); // 重置计时器的运行时间
+    lv_timer_resume(inactivity_timer); // 确保计时器正在运行
+}
+
+void standby_screen_event_handler(lv_event_t *e) {
+    _ui_screen_change(&previous_screen, LV_SCR_LOAD_ANIM_FADE_ON, 200, 0, NULL);    
+    reset_timer(); // 重置计时器以重新开始
+    _ui_screen_delete(&ui_Standby); // 删除待机界面
+}
+
+void ui_event_ResetInactivity(lv_event_t *e) {
+    reset_timer();
+}
+
+
 
 const lv_img_dsc_t *ui_imgset_chatgpt_[1] = {&ui_img_chatgpt_24_png};
 const lv_img_dsc_t *ui_imgset_wifi[2] = {&ui_img_wifi1_png, &ui_img_wifi2_png};
@@ -635,22 +676,6 @@ void ui_event_SwitchSpeak(lv_event_t *e)
         _ui_checked_set_text_value(ui_LabelGPTSwitch, target, "ON", "OFF");
     }
 }
-// void ui_event_SwitchSpeak2(lv_event_t * e)
-// {
-//     lv_event_code_t event_code = lv_event_get_code(e);
-//     lv_obj_t *target = lv_event_get_target(e);
-//     if (event_code == LV_EVENT_VALUE_CHANGED)
-//     {
-//         if (mic_flag == 0)
-//             if (lv_obj_has_state(target, LV_STATE_CHECKED))
-//             {
-//                 mic_flag = 1;
-//                 lv_textarea_set_text(ui_TextCommand, "你说，我在听...");
-//                 lv_obj_add_state(target, LV_STATE_CHECKED | LV_STATE_DISABLED);
-//             }
-//         _ui_checked_set_text_value(ui_LabelGPTSwitch2, target, "ON", "OFF");
-//     }
-// }
 void ui_event_SwitchSpeak2(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -678,7 +703,6 @@ void ui_event_SwitchSpeak2(lv_event_t * e)
         _ui_checked_set_text_value(ui_LabelGPTSwitch2, target, "ON", "OFF");
     }
 }
-
 void ui_event_GameBackToMain(lv_event_t *e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -724,7 +748,6 @@ void ui_event_MoveBackToMain(lv_event_t * e)
 
     }
 }
-
 void ui_event_Button1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -734,6 +757,7 @@ void ui_event_Button1(lv_event_t * e)
         move_flag = true;
     }
 }
+
 
 ///////////////////// SCREENS ////////////////////
 
@@ -754,6 +778,7 @@ void ui_init(void)
     ui_Cal_screen_init();
     ui_About_screen_init();
     ui_Move_screen_init();
+    ui_Standby_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_Main);
 }

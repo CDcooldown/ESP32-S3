@@ -8,6 +8,7 @@
 
 void ui_Move_screen_init(void)
 {
+    lv_obj_add_event_cb(ui_Move, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
     ui_Move = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_Move, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Move, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);

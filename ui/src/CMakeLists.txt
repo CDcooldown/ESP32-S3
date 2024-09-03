@@ -8,7 +8,9 @@ SET(SOURCES components/ui_comp_imagelab.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
+    images/ui_img_gooddog_png.c
     images/ui_img_dogmove_png.c
+    images/ui_img_xiaodianshi_png.c
     images/ui_img_1481330059.c
     images/ui_img_1481322636.c
     images/ui_img_123003138.c

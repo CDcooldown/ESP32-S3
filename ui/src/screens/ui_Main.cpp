@@ -7,6 +7,8 @@
 
 void ui_Main_screen_init(void)
 {
+    lv_obj_add_event_cb(ui_Main, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
+
     ui_Main = lv_obj_create(NULL);
     lv_obj_clear_flag( ui_Main, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
     lv_obj_set_style_bg_color(ui_Main, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
@@ -363,8 +365,8 @@ void ui_Main_screen_init(void)
     lv_obj_set_style_border_opa(ui_PanelMove, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_ToMove = lv_imgbtn_create(ui_PanelMove);
-    lv_imgbtn_set_src(ui_ToMove, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_dogmove_png, NULL);
-    lv_imgbtn_set_src(ui_ToMove, LV_IMGBTN_STATE_PRESSED, NULL, &ui_img_dogmove_png, NULL);
+    lv_imgbtn_set_src(ui_ToMove, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_gooddog_png, NULL);
+    lv_imgbtn_set_src(ui_ToMove, LV_IMGBTN_STATE_PRESSED, NULL, &ui_img_gooddog_png, NULL);
     lv_obj_set_height(ui_ToMove, 48);
     lv_obj_set_width(ui_ToMove, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_x(ui_ToMove, -2);
@@ -391,5 +393,8 @@ void ui_Main_screen_init(void)
     lv_obj_add_event_cb(ui_ToCal, ui_event_ToCal, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ToAbout, ui_event_ToAbout, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_ToMove, ui_event_ToMove, LV_EVENT_ALL, NULL);
+
+    init_timer();
+    reset_timer();
 
 }

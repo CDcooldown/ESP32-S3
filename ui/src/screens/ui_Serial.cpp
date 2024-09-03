@@ -7,6 +7,7 @@
 
 void ui_Serial_screen_init(void)
 {
+    lv_obj_add_event_cb(ui_Serial, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
 ui_Serial = lv_obj_create(NULL);
 lv_obj_clear_flag( ui_Serial, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 lv_obj_set_style_bg_color(ui_Serial, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );

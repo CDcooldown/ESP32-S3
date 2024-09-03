@@ -19,6 +19,14 @@ extern "C"
 #include "ui_events.h"
 
     void Start_Animation(lv_obj_t *TargetObject, int delay);
+    // SCREEN: ui_Standby
+    void ui_Standby_screen_init(void);
+    extern lv_obj_t *ui_Standby;
+    extern lv_obj_t *ui_Face;
+    void standby_screen_event_handler(lv_event_t *e);
+    void ui_event_ResetInactivity(lv_event_t *e);
+    void init_timer();
+    void reset_timer();
     // SCREEN: ui_Main
     void ui_Main_screen_init(void);
     extern lv_obj_t *ui_Main;
@@ -256,6 +264,8 @@ extern "C"
     LV_IMG_DECLARE(ui_img_1219345095);     // assets\投币激活@2x.png
     LV_IMG_DECLARE(ui_img_1965006549);     // assets\收藏.png
     LV_IMG_DECLARE(ui_img_dogmove_png);    // assets/dogmove.png
+    LV_IMG_DECLARE(ui_img_gooddog_png); 
+    LV_IMG_DECLARE(ui_img_xiaodianshi_png); 
     LV_FONT_DECLARE(ui_font_AlimamaFont32Bpp4);
     LV_FONT_DECLARE(ui_font_AlimamaShuHeiFont16Bpp4);
 
