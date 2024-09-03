@@ -212,6 +212,16 @@ extern "C"
     extern lv_obj_t * ui_Button2;
     void ui_event_Button1(lv_event_t * e);
     extern lv_obj_t * ui_Button1;
+    extern lv_obj_t * ui_1Label;
+    void ui_event_Button2(lv_event_t * e);
+    extern lv_obj_t * ui_Button2;
+    extern lv_obj_t * ui_2Label;
+    void ui_event_Button3(lv_event_t * e);
+    extern lv_obj_t * ui_Button3;
+    extern lv_obj_t * ui_3Label;
+    void ui_event_Button4(lv_event_t * e);
+    extern lv_obj_t * ui_Button4;
+    extern lv_obj_t * ui_4Label;
     void ui_event_SwitchSpeak2(lv_event_t * e);
     extern lv_obj_t * ui_SwitchSpeak2;
     extern lv_obj_t * ui_LabelGPTSwitch2;

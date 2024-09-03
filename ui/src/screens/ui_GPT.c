@@ -7,9 +7,9 @@
 
 void ui_GPT_screen_init(void)
 {
-    lv_obj_add_event_cb(ui_GPT, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
 
 ui_GPT = lv_obj_create(NULL);
+lv_obj_add_event_cb(ui_GPT, ui_event_ResetInactivity, LV_EVENT_ALL, NULL);
 lv_obj_clear_flag( ui_GPT, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_GPTBackToMain = lv_imgbtn_create(ui_GPT);

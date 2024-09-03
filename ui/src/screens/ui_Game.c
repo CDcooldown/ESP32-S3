@@ -7,9 +7,9 @@
 
 void ui_Game_screen_init(void)
 {
-    lv_obj_add_event_cb(ui_Game, ui_event_ResetInactivity, LV_EVENT_CLICKED, NULL);
 
 ui_Game = lv_obj_create(NULL);
+    lv_obj_add_event_cb(ui_Game, ui_event_ResetInactivity, LV_EVENT_ALL, NULL);
 lv_obj_clear_flag( ui_Game, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_GameBackToMain = lv_imgbtn_create(ui_Game);

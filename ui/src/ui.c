@@ -206,9 +206,19 @@ void ui_Move_screen_init(void);
 lv_obj_t * ui_Move;
 void ui_event_MoveBackToMain(lv_event_t * e);
 lv_obj_t * ui_MoveBackToMain;
-lv_obj_t * ui_Button2;
 void ui_event_Button1(lv_event_t * e);
 lv_obj_t * ui_Button1;
+lv_obj_t * ui_1Label;
+void ui_event_Button2(lv_event_t * e);
+lv_obj_t * ui_Button2;
+lv_obj_t * ui_2Label;
+void ui_event_Button3(lv_event_t * e);
+lv_obj_t * ui_Button3;
+lv_obj_t * ui_3Label;
+void ui_event_Button4(lv_event_t * e);
+lv_obj_t * ui_Button4;
+lv_obj_t * ui_4Label;
+
 void ui_event_SwitchSpeak2(lv_event_t * e);
 lv_obj_t * ui_SwitchSpeak2;
 lv_obj_t * ui_LabelGPTSwitch2;
@@ -225,7 +235,7 @@ void auto_click_timer_cb(lv_timer_t * timer)
 }
 
 lv_timer_t *inactivity_timer; // 全局计时器变量
-uint32_t inactivity_time = 8000; // 30秒（单位为毫秒）
+uint32_t inactivity_time = 20000; // 30秒（单位为毫秒）
 lv_obj_t *previous_screen; // 用于保存之前的屏幕
 
 // 计时器回调函数
@@ -241,7 +251,7 @@ void inactivity_timer_callback(lv_timer_t * timer)
 
 
 void init_timer() {
-    inactivity_timer = lv_timer_create(inactivity_timer_callback, 10000, NULL); // 每秒检查一次
+    inactivity_timer = lv_timer_create(inactivity_timer_callback, inactivity_time, NULL); // 每秒检查一次
     lv_timer_pause(inactivity_timer); // 暂停计时器，等用户操作时启动
 }
 
@@ -257,7 +267,11 @@ void standby_screen_event_handler(lv_event_t *e) {
 }
 
 void ui_event_ResetInactivity(lv_event_t *e) {
-    reset_timer();
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t *target = lv_event_get_target(e);
+    if (event_code == LV_EVENT_CLICKED || event_code == LV_EVENT_GESTURE || event_code == LV_EVENT_SCROLL || event_code == LV_EVENT_PRESSED || event_code == LV_EVENT_RELEASED) {
+        reset_timer();
+    }
 }
 
 
@@ -753,7 +767,34 @@ void ui_event_Button1(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
+        action = 0;
+        move_flag = true;
+    }
+}
+void ui_event_Button2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        action = 4;
+        move_flag = true;
+    }
+}
+void ui_event_Button3(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
         action = 5;
+        move_flag = true;
+    }
+}
+void ui_event_Button4(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        action = 6;
         move_flag = true;
     }
 }
